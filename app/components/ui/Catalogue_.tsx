@@ -70,6 +70,14 @@ const Catalogue_ = ({}: Catalogue_Props) => {
               return <div
               className={`w-[60px] h-[60px] flex flex-row justify-center items-center bg-black/40 hover:bg-black/80 cursor-pointer  text-white rounded-[3px] mx-[1px]`}
               key={index}
+              onClick={() => {
+                const goToGoogleMaps = (latitude, longitude) => {
+                  const googleMapsUrl = `https://www.google.com/maps?q=${latitude},${longitude}`;
+                  window.open(googleMapsUrl, '_blank');
+                };
+
+                goToGoogleMaps(focus_.postAddress?.lat, focus_.postAddress?.lng)
+              }}
             >
               <FontAwesomeIcon icon={obj_} className={``} />
             </div>

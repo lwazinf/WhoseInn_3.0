@@ -113,7 +113,6 @@ const Map_: FC = () => {
         {/* 22. Conditionally render the marker. */}
         {markerData && markerData.coordinates && (
           <Marker position={markerData.coordinates}>
-            <Popup>{markerData.title}</Popup>
           </Marker>
         )}
         {/* 23. Include the ZoomHandler for zoom events. */}

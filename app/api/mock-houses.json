@@ -1,0 +1,24 @@
+
+[
+    {"id": 1, "description": "Elegant Mansion with panoramic views. 6 bedrooms, 5 bathrooms. Private pool and garden. Modern kitchen. Close to amenities. $2,500,000."},
+    {"id": 2, "description": "Charming Victorian townhouse. 4 bedrooms, 3 bathrooms. Classic architecture. Spacious living areas. Quaint backyard. Walkable neighborhood. $1,200,000."},
+    {"id": 3, "description": "Contemporary penthouse with city skyline views. 3 bedrooms, 2 bathrooms. Open-concept design. High-end finishes. Rooftop terrace. $1,800,000."},
+    {"id": 4, "description": "Seaside cottage with oceanfront views. 2 bedrooms, 1 bathroom. Coastal charm. Sunroom and deck. Relaxing retreat. $750,000."},
+    {"id": 5, "description": "Luxurious suburban estate. 5 bedrooms, 4 bathrooms. Grand foyer. Gourmet kitchen. Home theater. Expansive backyard. $2,300,000."},
+    {"id": 6, "description": "Rustic log cabin in the woods. 2 bedrooms, 1 bathroom. Stone fireplace. Wrap-around porch. Tranquil surroundings. $500,000."},
+    {"id": 7, "description": "Mid-century modern gem. 3 bedrooms, 2 bathrooms. Sleek design. Large windows. Private backyard. Desirable neighborhood. $1,100,000."},
+    {"id": 8, "description": "Coastal bungalow with beach access. 4 bedrooms, 3 bathrooms. Bright interiors. Deck with ocean views. Walk to the shore. $1,400,000."},
+    {"id": 9, "description": "Quaint farmhouse on acreage. 3 bedrooms, 2 bathrooms. Wrap-around porch. Barn and garden. Serene countryside setting. $900,000."},
+    {"id": 10, "description": "Modern townhouse in the city center. 2 bedrooms, 2 bathrooms. Open floor plan. Rooftop terrace. Walk to shops and dining. $800,000."},
+    {"id": 11, "description": "Sunny Mediterranean villa. 4 bedrooms, 3 bathrooms. Courtyard and pool. Hillside location. Views of the city and mountains. $1,600,000."},
+    {"id": 12, "description": "Historic colonial revival. 5 bedrooms, 4 bathrooms. Original details. Spacious rooms. Manicured garden. Prestigious address. $2,000,000."},
+    {"id": 13, "description": "Sleek urban loft. 1 bedroom, 1 bathroom. Industrial chic. High ceilings. Exposed brick. Close to public transit and nightlife. $600,000."},
+    {"id": 14, "description": "Lakefront retreat with dock. 3 bedrooms, 2 bathrooms. Panoramic lake views. Deck and boat slip. Peaceful and secluded. $1,100,000."},
+    {"id": 15, "description": "Suburban family home. 4 bedrooms, 3 bathrooms. Updated kitchen. Playroom and backyard. Top-rated schools. Close to parks. $950,000."},
+    {"id": 16, "description": "Ski-in/ski-out chalet. 6 bedrooms, 4 bathrooms. Mountain views. Fireplace and hot tub. Access to slopes. Ideal for winter enthusiasts. $2,800,000."},
+    {"id": 17, "description": "Architect-designed modern masterpiece. 3 bedrooms, 3 bathrooms. Energy-efficient. Smart home features. Private courtyard. $1,700,000."},
+    {"id": 18, "description": "English Tudor in a quiet cul-de-sac. 5 bedrooms, 4 bathrooms. Elegant details. Landscaped garden. Close to schools and shopping. $1,300,000."},
+    {"id": 19, "description": "Countryside log home. 4 bedrooms, 3 bathrooms. Vaulted ceilings. Wrap-around porch. Forested acreage. Perfect for nature lovers. $1,200,000."},
+    {"id": 20, "description": "Artistic loft in the arts district. 2 bedrooms, 1 bathroom. Exposed beams. Gallery-style living space. Walk to galleries and cafes. $700,000."}
+  ]
+  

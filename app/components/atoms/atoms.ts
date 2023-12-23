@@ -99,19 +99,58 @@ export const LocationState = atom<any>({
   default: {},
 })
 
+export const RoomState = atom<any>({
+  key: `${COMPONENT_NAME}/RoomState`,
+  default: null,
+})
+
+export const DescState = atom<any>({
+  key: `${COMPONENT_NAME}/DescState`,
+  default: null,
+})
+
+export const LoadingState = atom<any>({
+  key: `${COMPONENT_NAME}/LoadingState`,
+  default: false,
+})
+
+export const TempState = atom<any>({
+  key: `${COMPONENT_NAME}/TempState`,
+  default: {
+    cover: { url: "", file: null },
+    demo1: { url: "", file: null },
+    demo2: { url: "", file: null },
+    demo3: { url: "", file: null },
+  },
+})
+
+export const ContentState = atom<any>({
+  key: `${COMPONENT_NAME}/ContentState`,
+  default: {
+    cover: null,
+    demo1: null,
+    demo2: null,
+    demo3: null,
+  },
+})
+
+export const PriceState = atom<any>({
+  key: `${COMPONENT_NAME}/PriceState`,
+  default: null,
+})
 
 export const UserState = atom<any>({
-  key: 'UserState',
+  key: `${COMPONENT_NAME}/UserState`,
   default: null,
 })
 
 export const DepthState = atom<any>({
-  key: 'DepthState',
+  key: `${COMPONENT_NAME}/DepthState`,
   default: {logic:false, data:""},
 })
 
 export const MarkerState = atom({
-  key: 'DepthState',
+  key: `${COMPONENT_NAME}/MarkerState`,
   default: {
     coordinates: [-29.0852, 26.1596],
   title: "string"

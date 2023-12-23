@@ -55,7 +55,7 @@ const Nav_ = ({}: Nav_Props) => {
     // Cleanup the listener when the component is unmounted
     return () => unsubscribe();
   }, []); // Empty dependency array ensures the effect runs only once on mount
-  
+
   return (
     <div
       className={`min-w-2 min-h-2 absolute left-[-60px] flex flex-col justify-center items-center`}
@@ -96,7 +96,11 @@ const NavElements_ = ({}: NavElements_Props) => {
                 ? "p-5 pl-6 pr-4 duration-75 opacity-100"
                 : "p-5 duration-75 opacity-80"
             } ${
-              (open_ || deep_.logic) && (obj_.name == "Messages" || obj_.name == "Invites" || obj_.name == "Providers") && "pointer-events-none cursor-default"
+              (open_ || deep_.logic || !user_) &&
+              (obj_.name == "Messages" ||
+                obj_.name == "Invites" ||
+                obj_.name == "Providers") &&
+              "pointer-events-none cursor-default"
             }`}
             onMouseEnter={() => {
               setHoverActive_(index);
@@ -109,9 +113,9 @@ const NavElements_ = ({}: NavElements_Props) => {
                 ? () => {
                     open_ && setOpen_(false);
                     !open_ && setMenu_("");
-                    deep_.logic && setMenu_(deep_.data)
+                    deep_.logic && setMenu_(deep_.data);
                     !open_ && router.push("/");
-                    deep_.logic && setDeep_({logic:false, data:deep_.data})
+                    deep_.logic && setDeep_({ logic: false, data: deep_.data });
                     obj_.action;
                   }
                 : obj_.name == "Providers"
@@ -149,6 +153,8 @@ const NavElements_ = ({}: NavElements_Props) => {
                         console.log("Error!!");
                       }
                     }
+                    setMenu_('')
+                    setDeep_({ logic: false, data: '' });
                     user_ && signOut_();
                     obj_.action;
                   }
@@ -156,6 +162,7 @@ const NavElements_ = ({}: NavElements_Props) => {
             }
             key={index}
           >
+            {/* <div className={`w-[6px] h-[30px] bg-black/50 rounded-[2px] absolute left-[-10px] duration-500 transition-all  ${obj_.name == menu_ ? 'opacity-100' : 'opacity-0'}`}/> */}
             <FontAwesomeIcon
               icon={
                 (open_ || deep_.logic) && obj_.name == "Home"
@@ -164,10 +171,16 @@ const NavElements_ = ({}: NavElements_Props) => {
                   ? obj_.altIcon
                   : obj_.icon
               }
-              className={`w-full h-full ${
-                open_ && obj_.name == "Home" && ""
-              } ${obj_.name == menu_ ? 'text-black/90 animate-pulse hover:text-black/90' : 'text-black/70 hover:text-black/90'} transition-all duration-1000 ${
-                (open_ || deep_.logic) && (obj_.name == "Messages" || obj_.name == "Invites" || obj_.name == "Providers") && "opacity-50 duration-75"
+              className={`w-full h-full ${open_ && obj_.name == "Home" && ""} ${
+                obj_.name == menu_
+                  ? "text-black/90 animate-pulse hover:text-black/90"
+                  : "text-black/70 hover:text-black/90"
+              } transition-all duration-1000 ${
+                (open_ || deep_.logic || !user_) &&
+                (obj_.name == "Messages" ||
+                  obj_.name == "Invites" ||
+                  obj_.name == "Providers") &&
+                "opacity-50 duration-75"
               }`}
             />
             <div
@@ -191,7 +204,6 @@ const NavElements_ = ({}: NavElements_Props) => {
           </div>
         );
       })}
-      
     </div>
   );
 };
