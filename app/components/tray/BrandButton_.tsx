@@ -29,7 +29,7 @@ const BrandButton_ = ({value}:BrandButton_Props) => {
   const upperCaseValue = value.toUpperCase()
 
   const getAllFiles = () => {
-    const files = Object.values(tempURLs_).map((image) => image.file).filter(Boolean);
+    const files = Object.values(tempURLs_).map((image) => image?.file).filter(Boolean);
     return files;
   };
 

@@ -2,7 +2,7 @@
 
 import React, { useEffect } from "react";
 import RenderMap_ from "./components/map/RenderMap_";
-import Tray_ from "./components/ui/Tray_";
+import Tray_ from "./components/tray/Tray_";
 import { UserState } from "./components/atoms/atoms";
 import { useRecoilState } from "recoil";
 

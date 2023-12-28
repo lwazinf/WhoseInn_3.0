@@ -11,8 +11,9 @@ import {
 import "leaflet/dist/leaflet.css";
 import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.webpack.css";
 import "leaflet-defaulticon-compatibility";
-import { MarkerState } from "../atoms/atoms";
+import { FocusState, MarkerState } from "../atoms/atoms";
 import { useRecoilState } from "recoil";
+import latlng from "latitude-longitude"
 
 //2. Define the interface for MarkerData.
 interface MarkerData {
@@ -47,15 +48,39 @@ const Loader = () => {
 //4. Main component definition.
 const Map_: FC = () => {
   const locations = { lat: -29.0852, lng: 26.1596 };
+  const [clickedCoordinates, setClickedCoordinates] = useState<[number, number] | null>(null);
 
   //5. Initialize local state.
   const [markerData, setMarkerData] = useRecoilState(MarkerState);
   const [loading, setLoading] = useState<boolean>(false);
+  const [focus_, setFocus_] = useRecoilState(FocusState);
   const [submittedQuestion, setSubmittedQuestion] = useState<string | null>(
     null
   );
   //6. Declare useRef to reference map.
   const mapRef = useRef<any | null>(null);
+  //7. ClickHandler component for handling map zoom events.
+  //7. ClickHandler component for handling map click events.
+  const ClickHandler: FC = () => {
+    useMapEvents({
+      click: (e) => {
+        const { lat, lng } = e.latlng;
+        setClickedCoordinates([lat, lng]);
+
+        // Update markerData.coordinates when a click event occurs
+        setMarkerData((prevMarkerData) => ({
+          ...prevMarkerData,
+          coordinates: [lat, lng],
+        }));
+
+        const kilometres = latlng.getDistance([-29.106992683815335, 26.192525701845852], [lat, lng])
+        setFocus_({});
+        console.log(kilometres);
+      },
+    });
+
+    return null;
+  };
   //7. ZoomHandler component for handling map zoom events.
   const ZoomHandler: FC = () => {
     //8. Use Leaflet's useMap hook.
@@ -117,6 +142,7 @@ const Map_: FC = () => {
         )}
         {/* 23. Include the ZoomHandler for zoom events. */}
         <ZoomHandler />
+        <ClickHandler />
       </MapContainer>
     </>
   );
