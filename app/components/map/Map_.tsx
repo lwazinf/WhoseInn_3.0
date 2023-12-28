@@ -11,7 +11,7 @@ import {
 import "leaflet/dist/leaflet.css";
 import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.webpack.css";
 import "leaflet-defaulticon-compatibility";
-import { FocusState, MarkerState } from "../atoms/atoms";
+import { FocusState, MarkerState, MarkerState2 } from "../atoms/atoms";
 import { useRecoilState } from "recoil";
 import latlng from "latitude-longitude"
 
@@ -52,6 +52,7 @@ const Map_: FC = () => {
 
   //5. Initialize local state.
   const [markerData, setMarkerData] = useRecoilState(MarkerState);
+  const [markerData2, setMarkerData2] = useRecoilState(MarkerState2);
   const [loading, setLoading] = useState<boolean>(false);
   const [focus_, setFocus_] = useRecoilState(FocusState);
   const [submittedQuestion, setSubmittedQuestion] = useState<string | null>(
@@ -72,9 +73,13 @@ const Map_: FC = () => {
           ...prevMarkerData,
           coordinates: [lat, lng],
         }));
+        setMarkerData2((prevMarkerData2) => ({
+          ...prevMarkerData2,
+          coordinates: [lat, lng],
+        }));
+        setFocus_({});
 
         const kilometres = latlng.getDistance([-29.106992683815335, 26.192525701845852], [lat, lng])
-        setFocus_({});
         console.log(kilometres);
       },
     });

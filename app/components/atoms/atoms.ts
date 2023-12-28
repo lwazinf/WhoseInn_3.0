@@ -152,7 +152,15 @@ export const DepthState = atom<any>({
 export const MarkerState = atom({
   key: `${COMPONENT_NAME}/MarkerState`,
   default: {
-    coordinates: [-29.0852, 26.1596],
-  title: "string"
+    coordinates: [-29.106992683815335, 26.192525701845852],
+  title: ""
+  },
+})
+
+export const MarkerState2 = atom({
+  key: `${COMPONENT_NAME}/MarkerState2`,
+  default: {
+    coordinates: [-29.106992683815335, 26.192525701845852],
+  title: ""
   },
 })

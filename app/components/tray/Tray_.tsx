@@ -2,9 +2,9 @@
 
 import { useRecoilState } from "recoil";
 import {
-  CacheState,
+  CacheState, MarkerState, MarkerState2
 } from "../atoms/atoms";
-import { getLocations } from "@/firebase";
+import { getClosestLocation, getLocations } from "@/firebase";
 import { useEffect } from "react";
 import Home_ from "./Home_";
 import Create_ from "./Create_";
@@ -15,14 +15,19 @@ interface Tray_Props {}
 
 const Tray_ = ({}: Tray_Props) => {
   const [cache_, setCache_] = useRecoilState(CacheState);
+  const [marker_, setMarker_] = useRecoilState(MarkerState2);
   useEffect(() => {
     const y_ = async () => {
-      const x_ = await getLocations();
+      const x__ = await getClosestLocation({
+        lat: marker_.coordinates[0],
+        lng: marker_.coordinates[1],
+      });
+      console.log(x__)
       // @ts-ignore
-      setCache_(x_);
+      setCache_([x__]);
     };
     y_().then(() => {});
-  }, []);
+  }, [marker_]);
 
   return (
     <div className={``}>

@@ -244,7 +244,7 @@ const Parent_ = ({}: Parent_Props) => {
                 setFocus_(obj);
                 setMarkerData({
                   coordinates: [obj.postAddress?.lat, obj.postAddress.lng],
-                  title: "Next",
+                  title: "",
                 });
               }
             }}
