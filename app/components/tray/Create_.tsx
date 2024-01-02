@@ -1,10 +1,13 @@
 import {
   faAdd,
   faDollarSign,
+  faGenderless,
   faHouse,
   faImage,
   faLocation,
+  faMarsAndVenus,
   faStar,
+  faVenusMars,
 } from "@fortawesome/free-solid-svg-icons";
 import BlackBubble_ from "./Bubble_";
 import Input_, { Autocomplete_ } from "./AutoComplete_";
@@ -57,7 +60,7 @@ const Create_ = ({}: Create_Props) => {
   };
   return (
     <div className={``}>
-      <Parent_/>
+      <Parent_ />
       <div
         className={`h-screen m-auto flex flex-col items-center justify-start min-w-2 max-w-[380px] px-6 overflow-hidden overflow-y-scroll pb-[50px] absolute top-0 right-1 ${
           menu_ == "Create"
@@ -186,6 +189,13 @@ const Create_ = ({}: Create_Props) => {
             icon={faDollarSign}
           />
           <Input_ value={`price`} />
+          <BlackBubble_
+            value={`What is your preferred gender to accommodate?`}
+            icon={faVenusMars}
+          />
+          <div className={`w-[120px] h-[20px] text-[13px] text-black/80 hover:text-white/80 cursor-pointer transition-all duration-200 hover:bg-black/40 bg-black/20 rounded-[4px] ml-[80px] flex flex-col justify-center items-center`}>
+            -- -- --
+          </div>
           <BrandButton_ value={`create`} />
         </div>
         {[

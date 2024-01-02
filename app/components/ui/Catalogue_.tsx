@@ -4,17 +4,30 @@ import {
   FocusImageState,
   OpenState,
   ThisState,
+  DepthState,
+  MenuState,
 } from "../atoms/atoms";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCar, faLocation, faPhone, faPlus, faTimes } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCar,
+  faEnvelope,
+  faLocation,
+  faPhone,
+  faPlus,
+  faRuler,
+  faTimes,
+} from "@fortawesome/free-solid-svg-icons";
 
 interface Catalogue_Props {}
 
 const Catalogue_ = ({}: Catalogue_Props) => {
+  const [menu_, setMenu_] = useRecoilState(MenuState);
   const [focus_, setFocus_] = useRecoilState(FocusState);
   const [focusImage_, setFocusImage_] = useRecoilState(FocusImageState);
   const [open_, setOpen_] = useRecoilState(OpenState);
   const [showThis_, setShowThis_] = useRecoilState(ThisState);
+  const [deep_, setDeep_] = useRecoilState(DepthState);
+
   return (
     <div
       className={`w-full min-h-screen fixed ${
@@ -27,7 +40,7 @@ const Catalogue_ = ({}: Catalogue_Props) => {
       >
         {/* @ts-ignore */}
         {focus_?.images?.map((obj, index) => {
-          if(index == 0){
+          if (index == 0) {
             return;
           }
           return (
@@ -38,10 +51,7 @@ const Catalogue_ = ({}: Catalogue_Props) => {
               }}
               key={index}
             >
-              <img
-                src={obj.url}
-                className={`w-full h-full object-cover`}
-              />
+              <img src={obj.url} className={`w-full h-full object-cover`} />
             </div>
           );
         })}
@@ -57,30 +67,53 @@ const Catalogue_ = ({}: Catalogue_Props) => {
           </p>
           <p className={`text-[14px] font-medium`}>
             Deposit:
-            <span className={`text-black/60 text-[13px]`}> Price goes here..</span>
+            <span className={`text-black/60 text-[13px]`}>
+              {" "}
+              Price goes here..
+            </span>
           </p>
           <p className={`text-[14px] font-medium`}>
             Rental:
-            <span className={`text-black/60 text-[13px]`}> Price goes here..</span>
+            <span className={`text-black/60 text-[13px]`}>
+              {" "}
+              Price goes here..
+            </span>
           </p>
           <div
             className={`w-full h-[60px] flex flex-row justify-start items-center mt-2`}
           >
-            {[faPhone, faCar].map((obj_, index) => {
-              return <div
-              className={`w-[60px] h-[60px] flex flex-row justify-center items-center bg-black/40 hover:bg-black/80 cursor-pointer  text-white rounded-[3px] mx-[1px]`}
-              key={index}
-              onClick={() => {
-                const goToGoogleMaps = (latitude, longitude) => {
-                  const googleMapsUrl = `https://www.google.com/maps?q=${latitude},${longitude}`;
-                  window.open(googleMapsUrl, '_blank');
-                };
+            {[
+              { icon: faPhone, action: () => {} },
+              {
+                icon: faCar,
+                action: () => {
+                  const goToGoogleMaps = (latitude, longitude) => {
+                    const googleMapsUrl = `https://www.google.com/maps?q=${latitude},${longitude}`;
+                    window.open(googleMapsUrl, "_blank");
+                  };
 
-                goToGoogleMaps(focus_.postAddress?.lat, focus_.postAddress?.lng)
-              }}
-            >
-              <FontAwesomeIcon icon={obj_} className={``} />
-            </div>
+                  goToGoogleMaps(
+                    focus_.postAddress?.lat,
+                    focus_.postAddress?.lng
+                  );
+                },
+              },
+              { icon: faRuler, action: () => {} },
+              { icon: faEnvelope, action: () => {
+                setOpen_(false)
+                setMenu_("Inbox");
+                setDeep_({ logic: true, data: menu_ });
+              } },
+            ].map((obj_, index) => {
+              return (
+                <div
+                  className={`w-[60px] h-[60px] flex flex-row justify-center items-center bg-black/40 hover:bg-black/80 cursor-pointer  text-white rounded-[3px] mx-[1px]`}
+                  key={index}
+                  onClick={obj_.action}
+                >
+                  <FontAwesomeIcon icon={obj_.icon} className={``} />
+                </div>
+              );
             })}
           </div>
         </div>

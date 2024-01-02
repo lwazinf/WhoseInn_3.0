@@ -22,7 +22,6 @@ const Tray_ = ({}: Tray_Props) => {
         lat: marker_.coordinates[0],
         lng: marker_.coordinates[1],
       });
-      console.log(x__)
       // @ts-ignore
       setCache_([x__]);
     };

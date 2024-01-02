@@ -164,3 +164,8 @@ export const MarkerState2 = atom({
   title: ""
   },
 })
+
+export const RollingState = atom({
+  key: `${COMPONENT_NAME}/RollingState`,
+  default: [],
+})

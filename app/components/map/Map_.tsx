@@ -11,9 +11,12 @@ import {
 import "leaflet/dist/leaflet.css";
 import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.webpack.css";
 import "leaflet-defaulticon-compatibility";
-import { FocusState, MarkerState, MarkerState2 } from "../atoms/atoms";
+import { DepthState, FocusState, MarkerState, MarkerState2, MenuState, OpenState, RollingState, UserState } from "../atoms/atoms";
 import { useRecoilState } from "recoil";
 import latlng from "latitude-longitude"
+import { Timestamp } from "@firebase/firestore";
+import { createLocationData_ } from "@/firebase";
+import { v4 } from "uuid";
 
 //2. Define the interface for MarkerData.
 interface MarkerData {
@@ -53,11 +56,29 @@ const Map_: FC = () => {
   //5. Initialize local state.
   const [markerData, setMarkerData] = useRecoilState(MarkerState);
   const [markerData2, setMarkerData2] = useRecoilState(MarkerState2);
+  const [rolling_, setRolling_] = useRecoilState(RollingState);
   const [loading, setLoading] = useState<boolean>(false);
   const [focus_, setFocus_] = useRecoilState(FocusState);
+  const [menu_, setMenu_] = useRecoilState(MenuState);
+  const [open_, setOpen_] = useRecoilState(OpenState);
+  const [user_, setUser_] = useRecoilState(UserState);
+  const [deep_, setDeep_] = useRecoilState(DepthState);
   const [submittedQuestion, setSubmittedQuestion] = useState<string | null>(
     null
   );
+
+  const updateRollingList = (newValue) => {
+    if (rolling_.length >= 9) {
+      const uuid_ = v4();
+      createLocationData_({data: [...rolling_, newValue], uid: uuid_, type: 'heat'})
+      // Reset to an empty array when the length reaches 5
+      setRolling_([]);
+    } else {
+      // Update the list with the new value
+      setRolling_((prevList) => [...prevList, newValue]);
+    }
+  };
+
   //6. Declare useRef to reference map.
   const mapRef = useRef<any | null>(null);
   //7. ClickHandler component for handling map zoom events.
@@ -67,6 +88,9 @@ const Map_: FC = () => {
       click: (e) => {
         const { lat, lng } = e.latlng;
         setClickedCoordinates([lat, lng]);
+
+        updateRollingList({lat:lat, lng:lng, timestamp: Timestamp.now(), user: user_.uid})
+        // console.log(user_)
 
         // Update markerData.coordinates when a click event occurs
         setMarkerData((prevMarkerData) => ({
@@ -78,6 +102,7 @@ const Map_: FC = () => {
           coordinates: [lat, lng],
         }));
         setFocus_({});
+        !open_ && setMenu_("Providers");
 
         const kilometres = latlng.getDistance([-29.106992683815335, 26.192525701845852], [lat, lng])
         console.log(kilometres);
@@ -147,7 +172,7 @@ const Map_: FC = () => {
         )}
         {/* 23. Include the ZoomHandler for zoom events. */}
         <ZoomHandler />
-        <ClickHandler />
+        {!(open_ || deep_.logic) && <ClickHandler />}
       </MapContainer>
     </>
   );

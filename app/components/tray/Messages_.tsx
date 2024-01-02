@@ -6,14 +6,41 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRecoilState } from "recoil";
-import { CacheState, DepthState, MenuState } from "../atoms/atoms";
+import { CacheState, DepthState, MenuState, UserState } from "../atoms/atoms";
+import { useEffect, useState } from "react";
+import { db, getMessages } from "@/firebase";
+import { collection, onSnapshot, query, where } from "@firebase/firestore";
+import BlackBubble_ from "./Bubble_";
 
 interface Messages_Props {}
 
 const Messages_ = ({}: Messages_Props) => {
   const [menu_, setMenu_] = useRecoilState(MenuState);
   const [deep_, setDeep_] = useRecoilState(DepthState);
-  const [cache_, setCache_] = useRecoilState(CacheState);
+  const [user_, setUser_] = useRecoilState(UserState);
+  const [messages, setMessages] = useState([]);
+  const [data_, setData_] = useState({});
+
+  useEffect(() => {
+    if (user_) {
+      console.log(user_?.uid);
+      const colRef = collection(db, "messages");
+      const q = query(colRef, where("lead", "array-contains", user_?.uid));
+
+      const unsubscribe = onSnapshot(q, (querySnapshot) => {
+        const updatedMessages = querySnapshot.docs.map((doc) => ({
+          ...doc.data(),
+          id: doc.id,
+        }));
+        setMessages(updatedMessages);
+      });
+
+      return () => {
+        // Unsubscribe from the snapshot listener when the component unmounts
+        unsubscribe();
+      };
+    }
+  }, [user_]);
   return (
     <div className={``}>
       <div
@@ -48,21 +75,14 @@ const Messages_ = ({}: Messages_Props) => {
           className={`w-[332px] min-h-[100px] rounded flex flex-col justify-center items-center transition-all duration-200 my-1`}
           onClick={() => {}}
         >
-          <div
-            className={`text-[12px] text-black/70 bg-white/80 px-1 rounded mt-auto mr-auto m-1 mb-0 flex flex-row justify-center items-center py-[1.5px] invert`}
-          >
-            Morning, I see you requested a visit..
-          </div>
-          <div
-            className={`text-[12px] text-black/70 bg-white/80 px-1 rounded mr-auto m-1 mb-2 flex flex-row justify-center items-center py-[1.5px] invert`}
-          >
-            <FontAwesomeIcon icon={faLocation} className={`mr-1`} /> Location
-          </div>
-          <div
-            className={`text-[12px] text-black/80 italic bg-white/80 px-1 rounded ml-auto m-1`}
-          >
-            Is it the house on Craftsman Street?
-          </div>
+          {
+            data_ && user_ && data_.data?.map((obj, index) => {
+              console.log(obj)
+              return <BlackBubble_ isThisYou={user_.uid==obj.sender} icon={null} value={user_ && obj.data} key={index} />
+            })
+          }
+          {/* <BlackBubble_ isThisYou={user_==data_.data[0].sender} icon={faLocation} value={'Location'} />
+          <BlackBubble_ isThisYou={user_==data_.data[0].sender} icon={null} value={'Is it the house on Craftsman Street?'} /> */}
           <div
             className={`text-[12px] text-black/80 italic rounded-[3px] flex flex-row justify-center ml-auto m-1 min-w-8 p-2 px-3`}
           >
@@ -82,7 +102,7 @@ const Messages_ = ({}: Messages_Props) => {
             : "mr-[-15px] duration-0 opacity-0 pointer-events-none"
         } transition-all`}
       >
-        {[...cache_].map((obj, index) => {
+        {messages.map((obj, index) => {
           return (
             <div
               key={index}
@@ -90,6 +110,7 @@ const Messages_ = ({}: Messages_Props) => {
               onClick={() => {
                 setMenu_("Inbox");
                 setDeep_({ logic: true, data: menu_ });
+                setData_(obj);
               }}
             >
               <div
