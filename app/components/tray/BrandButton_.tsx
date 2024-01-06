@@ -153,7 +153,7 @@ const BrandButton_ = ({value}:BrandButton_Props) => {
     window.location.reload()
   };
 
-    return ( <div className={`w-full h-[80px] mt-8`}>
+    return ( <div className={`w-full h-[80px] mt-8 z-0`}>
     <div
       className={`w-full h-[60px] flex flex-col justify-end pr-2 items-end rounded bg-black hover:bg-blue-900/90 ${loading_ && "bg-blue-900/90" } ml-auto mt-auto relative text-white/50 font-black text-[20px] cursor-pointer transition-all duration-1000 hover:duration-75`}
       onClick={() => {

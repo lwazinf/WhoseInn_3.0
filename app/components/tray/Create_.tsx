@@ -1,5 +1,6 @@
 import {
   faAdd,
+  faBoxesPacking,
   faDollarSign,
   faGenderless,
   faHouse,
@@ -25,6 +26,7 @@ import {
   TempState,
 } from "../atoms/atoms";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useState } from "react";
 
 interface Create_Props {}
 
@@ -33,6 +35,7 @@ const Create_ = ({}: Create_Props) => {
   const [location_, setLocation_] = useRecoilState(LocationState);
   const [content_, setContent_] = useRecoilState(ContentState);
   const [menu_, setMenu_] = useRecoilState(MenuState);
+  const [genderMenu_, setGenderMenu_] = useState(false);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files_ = event.target.files;
@@ -193,9 +196,34 @@ const Create_ = ({}: Create_Props) => {
             value={`What is your preferred gender to accommodate?`}
             icon={faVenusMars}
           />
-          <div className={`w-[120px] h-[20px] text-[13px] text-black/80 hover:text-white/80 cursor-pointer transition-all duration-200 hover:bg-black/40 bg-black/20 rounded-[4px] ml-[80px] flex flex-col justify-center items-center`}>
-            -- -- --
+          <div
+            className={`w-[120px] h-[20px] text-[13px] mb-2 mt-2 text-black/80 hover:text-white/80 cursor-pointer transition-all duration-200 hover:bg-black/40 bg-black/20 rounded-[4px] ml-[80px] flex flex-col justify-center items-center`}
+            onClick={() => {
+              setGenderMenu_(true)
+            }}
+          >
+            
           </div>
+          <div className={`relative left-[40px] mb-[-100px] flex flex-col min-w-[115px] min-h-2 z-[99] transition-all ${genderMenu_ ? 'opacity-100 duration-500' : 'opacity-0 duration-75'}`}>
+              {
+                ['Female', 'Male', 'Both'].map((obj_, index) => {
+                  return (
+                    <div
+                    key={index}
+                className={`cursor-pointer bg-black/30 hover:bg-black/60 transition-all duration-1000 hover:duration-75 rounded-[2px] hover:scale-[98%] backdrop-blur-md font-medium w-full min-h-2 p-1 my-[1px] text-[13px] text-white/80`}
+                onClick={() => {}}
+              >
+                {obj_}
+              </div>
+                  )
+                })
+              }
+            </div>
+          {/* <BlackBubble_
+            value={`Any additional details about the property?`}
+            icon={faBoxesPacking}
+          />
+          <Input_ value={`price`} /> */}
           <BrandButton_ value={`create`} />
         </div>
         {[
