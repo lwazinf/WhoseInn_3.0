@@ -87,13 +87,15 @@ const Catalogue_ = ({}: Catalogue_Props) => {
               {
                 icon: faCar,
                 action: () => {
-                  const goToGoogleMaps = (latitude, longitude) => {
+                  const goToGoogleMaps = (latitude: any, longitude: any) => {
                     const googleMapsUrl = `https://www.google.com/maps?q=${latitude},${longitude}`;
                     window.open(googleMapsUrl, "_blank");
                   };
 
                   goToGoogleMaps(
+              // @ts-ignore
                     focus_.postAddress?.lat,
+              // @ts-ignore
                     focus_.postAddress?.lng
                   );
                 },
