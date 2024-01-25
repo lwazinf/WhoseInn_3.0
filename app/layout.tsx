@@ -22,17 +22,15 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <title>
-        WhoseInn 3.0
-      </title>
+      <title>WhoseInn 3.0</title>
       <head>
-    <script
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB3x0RxMZbl6LRapAhKlegw6Xmp9rupr0g&libraries=places"
-      async
-      defer
-    ></script>
-  </head>
-      <body className={inter.className}>
+        <script
+          src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB3x0RxMZbl6LRapAhKlegw6Xmp9rupr0g&libraries=places"
+          async
+          defer
+        ></script>
+      </head>
+      <body className={`${inter.className} overflow-hidden`}>
         <RecoilRoot>
           {children}
           <Catalogue_ />
@@ -41,17 +39,37 @@ export default function RootLayout({
           >
             <Nav_ />
           </div>
-          <div
-            className={`w-[85px] h-[85px] flex flex-col justify-end items-end pr-2 absolute top-1 left-1 rounded text-white font-black text-[20px] bg-black/80 cursor-pointer`}
-            onClick={() => {
-              console.log('working..')
-            }}
-          >
-            .W
-          </div>
-          <OverlayBtn_/>
+          <Test_ />
+          <OverlayBtn_ />
         </RecoilRoot>
       </body>
     </html>
   );
 }
+
+interface Test_Props {}
+
+const Test_ = ({}: Test_Props) => {
+  async function createIndexAndEmbeddings() {
+    try {
+      const result = await fetch("/api/setup", {
+        method: "POST",
+      });
+      const json = await result.json();
+      console.log("result: ", json);
+    } catch (err) {
+      console.log("err:", err);
+    }
+  }
+  return (
+    <div
+      className={`w-[85px] h-[85px] flex flex-col justify-end items-end pr-2 absolute top-1 left-1 rounded text-white font-black text-[20px] bg-black/80 cursor-pointer`}
+      onClick={() => {
+        createIndexAndEmbeddings();
+        console.log("working..");
+      }}
+    >
+      .W
+    </div>
+  );
+};

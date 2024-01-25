@@ -94,6 +94,11 @@ export const CacheState = atom({
   default: [],
 });
 
+export const CacheDataState = atom({
+  key: `${COMPONENT_NAME}/CacheDataState`,
+  default: [],
+});
+
 export const LocationState = atom<any>({
   key: `${COMPONENT_NAME}/LocationState`,
   default: {},

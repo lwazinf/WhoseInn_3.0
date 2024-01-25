@@ -48,7 +48,7 @@ const Create_ = ({}: Create_Props) => {
 
       // Create an object URL from the Blob
       const objectURL = URL.createObjectURL(blob);
-      setTempURLs_((prevURLs) => ({
+      setTempURLs_((prevURLs: any) => ({
         ...prevURLs,
         // @ts-ignore
         [event.target.id]: { url: objectURL, file: files_[0] },
@@ -169,6 +169,7 @@ const Create_ = ({}: Create_Props) => {
             </div>
           </div>
           <BlackBubble_
+            isThisYou={false}
             value={`Input your property's address..`}
             icon={faLocation}
           />
@@ -178,47 +179,51 @@ const Create_ = ({}: Create_Props) => {
             <Autocomplete_ />
           </div>
           <BlackBubble_
+            isThisYou={false}
             value={`Write a brief description of your property..`}
             icon={faHouse}
           />
           <Input_ value={`desc`} />
           <BlackBubble_
+            isThisYou={false}
             value={`How many rooms are available?`}
             icon={faHouse}
           />
           <Input_ value={`rooms`} />
           <BlackBubble_
+            isThisYou={false}
             value={`How much is a room per student?`}
             icon={faDollarSign}
           />
           <Input_ value={`price`} />
           <BlackBubble_
+            isThisYou={false}
             value={`What is your preferred gender to accommodate?`}
             icon={faVenusMars}
           />
           <div
             className={`w-[120px] h-[20px] text-[13px] mb-2 mt-2 text-black/80 hover:text-white/80 cursor-pointer transition-all duration-200 hover:bg-black/40 bg-black/20 rounded-[4px] ml-[80px] flex flex-col justify-center items-center`}
             onClick={() => {
-              setGenderMenu_(true)
+              setGenderMenu_(true);
             }}
+          ></div>
+          <div
+            className={`relative left-[40px] mb-[-100px] flex flex-col min-w-[115px] min-h-2 z-[99] transition-all ${
+              genderMenu_ ? "opacity-100 duration-500" : "opacity-0 duration-75"
+            }`}
           >
-            
+            {["Female", "Male", "Both"].map((obj_, index) => {
+              return (
+                <div
+                  key={index}
+                  className={`cursor-pointer bg-black/30 hover:bg-black/60 transition-all duration-1000 hover:duration-75 rounded-[2px] hover:scale-[98%] backdrop-blur-md font-medium w-full min-h-2 p-1 my-[1px] text-[13px] text-white/80`}
+                  onClick={() => {}}
+                >
+                  {obj_}
+                </div>
+              );
+            })}
           </div>
-          <div className={`relative left-[40px] mb-[-100px] flex flex-col min-w-[115px] min-h-2 z-[99] transition-all ${genderMenu_ ? 'opacity-100 duration-500' : 'opacity-0 duration-75'}`}>
-              {
-                ['Female', 'Male', 'Both'].map((obj_, index) => {
-                  return (
-                    <div
-                    key={index}
-                className={`cursor-pointer bg-black/30 hover:bg-black/60 transition-all duration-1000 hover:duration-75 rounded-[2px] hover:scale-[98%] backdrop-blur-md font-medium w-full min-h-2 p-1 my-[1px] text-[13px] text-white/80`}
-                onClick={() => {}}
-              >
-                {obj_}
-              </div>
-                  )
-                })
-              }
-            </div>
           {/* <BlackBubble_
             value={`Any additional details about the property?`}
             icon={faBoxesPacking}
@@ -281,6 +286,7 @@ const Parent_ = ({}: Parent_Props) => {
               } else {
                 setFocus_(obj);
                 setMarkerData({
+                  // @ts-ignore
                   coordinates: [obj.postAddress?.lat, obj.postAddress.lng],
                   title: "",
                 });
@@ -288,6 +294,7 @@ const Parent_ = ({}: Parent_Props) => {
             }}
           >
             <img
+              // @ts-ignore
               src={`${obj.images[0].url}`}
               className={`object-cover w-full h-full`}
             />
@@ -296,13 +303,20 @@ const Parent_ = ({}: Parent_Props) => {
             >
               From{" "}
               <span className={`font-medium ml-1 text-black mr-[0.5px]`}>
-                R{obj.deposit}
+                R
+                {
+                  // @ts-ignore
+                  obj.deposit
+                }
               </span>
             </div>
             <div
               className={`text-[12px] text-black/80 italic bg-white/80 px-1 rounded ml-auto m-1  absolute bottom-0 right-0`}
             >
-              {obj.postDesc}
+              {
+                // @ts-ignore
+                obj.postDesc
+              }
             </div>
           </div>
         );

@@ -71,18 +71,9 @@ export const getLocations = async () => {
   }));
 };
 
-export const getClosestLocation = async (selectedPoint) => {
-  const colRef = collection(db, "locations");
-  const query_ = query(colRef, orderBy("postedOn", "desc"));
-
-  const data = await getDocs(query_);
-  const locations = data.docs.map((doc_) => ({
-    ...doc_.data(),
-    id: doc_.id,
-  }));
-
+export const getLocationsByDistance = async (selectedPoint: any) => {
   // Calculate distances for each location
-  const locationsWithDistances = locations.map((location) => ({
+  const locationsWithDistances = selectedPoint.data.map((location: any) => ({
     ...location,
     distance: calculateDistance(selectedPoint, {
       lat: location.postAddress.lat,
@@ -90,16 +81,20 @@ export const getClosestLocation = async (selectedPoint) => {
     }),
   }));
 
-  // Find the location with the minimum distance
-  const closestLocation = locationsWithDistances.reduce((min, location) =>
-    location.distance < min.distance ? location : min
+  // Sort locations by deposit in descending order
+  const sortedLocations = locationsWithDistances.sort((a: any, b: any) =>
+    a.distance - b.distance
   );
 
-  return closestLocation;
+  // Get the top 10 closest locations
+  const top10Locations = sortedLocations.slice(0, 10);
+  
+  return top10Locations;
 };
 
+
 // Haversine formula to calculate distance between two points
-function calculateDistance(point1, point2) {
+function calculateDistance(point1:any, point2:any) {
   const R = 6371; // Earth's radius in kilometers
 
   const dLat = toRadians(point2.lat - point1.lat);
@@ -118,7 +113,7 @@ function calculateDistance(point1, point2) {
   return distance;
 }
 
-function toRadians(degrees) {
+function toRadians(degrees: any) {
   return (degrees * Math.PI) / 180;
 }
 

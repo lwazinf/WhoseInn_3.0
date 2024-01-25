@@ -19,7 +19,78 @@ const Messages_ = ({}: Messages_Props) => {
   const [deep_, setDeep_] = useRecoilState(DepthState);
   const [user_, setUser_] = useRecoilState(UserState);
   const [messages, setMessages] = useState([]);
+  const [prompt_, setPrompt_] = useState([]);
   const [data_, setData_] = useState({});
+
+  const URL = "https://api.openai.com/v1/chat/completions";
+
+  const getData = async (userMessage: any) => {
+    const payload = {
+      model: "gpt-3.5-turbo",
+      messages: [
+        {
+          role: "system",
+          content:
+            `give me exactly what I ask from you, only return a list of ids`,
+        },
+        {
+          role: "user",
+          content: `${userMessage.trim()}`,
+        },
+      ],
+      temperature: 0.2,
+    //   stream: true,
+    };
+
+    try {
+      const response = await fetch(URL, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer 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`,
+        },
+        method: "POST",
+        body: JSON.stringify(payload),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        try{
+          console.log(JSON.parse(data.choices[0].message.content))
+        } catch {
+          console.log('error detected')
+        }
+      } else {
+        console.error("Failed to fetch data from the API");
+        return { data: "An error occurred.", origin: "robot" };
+      }
+    } catch (error) {
+      console.error("Error in fetching data:", error);
+        // @ts-ignore
+      return { data: `An error occurred: ${error.message}`, origin: "robot" };
+    }
+  };
+
+  async function sendQuery(data__:any) {
+    try {
+      const result = await fetch("/api/read", {
+        method: "POST",
+        body: JSON.stringify(
+          `which ids have: ${data__} in their address`
+        ),
+      });
+      const json = await result.json();
+      const final_ = await getData(
+        `return only a list of the ids in this text: (${json.data}).`
+      );
+      console.log(final_);
+
+      // if(JSON.parse(json.data)){console.log(JSON.parse(toString(json.data)))}else{
+      //   console.log('No list found')
+      // }
+    } catch (err) {
+      console.log("err:", err);
+    }
+  }
 
   useEffect(() => {
     if (user_) {
@@ -32,6 +103,7 @@ const Messages_ = ({}: Messages_Props) => {
           ...doc.data(),
           id: doc.id,
         }));
+        // @ts-ignore
         setMessages(updatedMessages);
       });
 
@@ -75,12 +147,20 @@ const Messages_ = ({}: Messages_Props) => {
           className={`w-[332px] min-h-[100px] rounded flex flex-col justify-center items-center transition-all duration-200 my-1`}
           onClick={() => {}}
         >
-          {
-            data_ && user_ && data_.data?.map((obj, index) => {
-              console.log(obj)
-              return <BlackBubble_ isThisYou={user_.uid==obj.sender} icon={null} value={user_ && obj.data} key={index} />
-            })
-          }
+          {data_ &&
+            user_ &&
+        // @ts-ignore
+            data_.data?.map((obj, index) => {
+              console.log(obj);
+              return (
+                <BlackBubble_
+                  isThisYou={user_.uid == obj.sender}
+                  icon={null}
+                  value={user_ && obj.data}
+                  key={index}
+                />
+              );
+            })}
           {/* <BlackBubble_ isThisYou={user_==data_.data[0].sender} icon={faLocation} value={'Location'} />
           <BlackBubble_ isThisYou={user_==data_.data[0].sender} icon={null} value={'Is it the house on Craftsman Street?'} /> */}
           <div
@@ -88,10 +168,20 @@ const Messages_ = ({}: Messages_Props) => {
           >
             <div
               className={`w-[20px] h-full flex flex-col justify-center items-end cursor-pointer hover:pr-[8px] pr-1 transition-all duration-200`}
+              onClick={() => {
+                sendQuery(prompt_);
+              }}
             >
               <FontAwesomeIcon icon={faAngleRight} />
             </div>
-            <input type="text" placeholder="Start typing here.." />
+            <input
+              type="text"
+              placeholder="Start typing here.."
+              onChange={(e) => {
+        // @ts-ignore
+                setPrompt_(e.target.value);
+              }}
+            />
           </div>
         </div>
       </div>

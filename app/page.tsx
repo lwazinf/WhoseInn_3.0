@@ -23,7 +23,7 @@ const Home = () => {
           <Tray_ />
         </div>
       </div>
-      <Notif_ />
+      {/* <Notif_ /> */}
     </main>
   );
 };
@@ -40,14 +40,16 @@ const Notif_ = ({}: Notif_Props) => {
       <div
         className={`w-full h-full bg-black/30 flex flex-col justify-center items-center rounded-[4px] overflow-hidden relative cursor-pointer`}
         onClick={() => {
-          console.log(`hello world`)
+          console.log(`hello world`);
         }}
       >
         <img
-          src={"https://images.pexels.com/photos/19195859/pexels-photo-19195859/free-photo-of-a-crowded-vinyl-record-shop.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"}
+          src={
+            "https://images.pexels.com/photos/19195859/pexels-photo-19195859/free-photo-of-a-crowded-vinyl-record-shop.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+          }
           className={`object-cover w-full h-full absolute top-0 transition-all duration-200`}
         />
       </div>
     </div>
   );
-};
+}; 

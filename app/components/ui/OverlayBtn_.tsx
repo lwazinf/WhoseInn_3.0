@@ -33,9 +33,23 @@ const OverlayBtn_ = ({}: OverlayBtn_Props) => {
     return () => clearInterval(intervalId);
   }, []); // Empty dependency array ensures the effect runs only once on mount
 
+  async function sendQuery() {
+    try {
+      const result = await fetch('/api/read', {
+        method: "POST",
+        body: JSON.stringify("where are we?")
+      })
+      const json = await result.json()
+      console.log(json)
+    } catch (err) {
+      console.log('err:', err)
+    }
+  }
+
   const handleLinkClick = () => {
     // Open the link in a new tab
     window.open("https://x.com/lwazinf", "_blank");
+    // sendQuery()
   };
   return (
     <div
@@ -48,7 +62,9 @@ const OverlayBtn_ = ({}: OverlayBtn_Props) => {
         className={`flex flex-row justify-start items-center relative bg-black/80 hover:bg-black p-2 py-1 text-white rounded cursor-pointer transition-all ${
           !flag ? "duration-200" : "duration-1000"
         } ${open_ ? "invert-0" : flag && "invert"}`}
-        onClick={handleLinkClick}
+        onClick={() => {
+          handleLinkClick()
+        }}
       >
         <p className={`text-[12px] font-medium cursor-pointer`}>Connect</p>
         <FontAwesomeIcon icon={faXTwitter} className={`ml-1 cursor-pointer`} />
